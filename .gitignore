@@ -48,4 +48,4 @@ instagram-archive/
 *storybook.log
 storybook-static
 
-db.*
+out/

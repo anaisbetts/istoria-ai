@@ -35,7 +35,7 @@ export async function up(db: Kysely<unknown>): Promise<void> {
     )
     .addColumn('source', 'text', (col) => col.notNull())
     .addColumn('title', 'text', (col) => col.notNull())
-    .addColumn('metadata', 'json', (col) => col.notNull().defaultTo(sql`({})`))
+    .addColumn('metadata', 'json', (col) => col.notNull().defaultTo(sql`'{}'`))
     .addColumn('createdAt', 'text', (col) =>
       col.notNull().defaultTo(sql`(datetime('now'))`)
     )

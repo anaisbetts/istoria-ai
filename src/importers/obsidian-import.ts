@@ -1,7 +1,10 @@
-import { Glob } from 'bun'
 import { stat } from 'node:fs/promises'
 import { basename, join } from 'node:path'
+import { Glob } from 'bun'
+import createDebug from 'debug'
 import type { NewMemory } from '../types'
+
+const d = createDebug('istoria:obsidian')
 
 // Matches YYYY-MM-DD at the start of a filename (e.g., "2025-09-11.md" or "2025-09-11 Meeting Notes.md")
 const YYYY_MM_DD_REGEX = /^(\d{4}-\d{2}-\d{2})/
@@ -23,6 +26,11 @@ function extractDateFromFilename(filename: string): Date | null {
   if (isoMatch?.[1]) {
     const parsed = new Date(isoMatch[1])
     if (!isNaN(parsed.getTime())) {
+      d(
+        'extracted ISO date from filename %s: %s',
+        filename,
+        parsed.toISOString()
+      )
       return parsed
     }
   }
@@ -32,10 +40,16 @@ function extractDateFromFilename(filename: string): Date | null {
   if (dateMatch?.[1]) {
     const parsed = new Date(dateMatch[1])
     if (!isNaN(parsed.getTime())) {
+      d(
+        'extracted YYYY-MM-DD date from filename %s: %s',
+        filename,
+        parsed.toISOString()
+      )
       return parsed
     }
   }
 
+  d('no date found in filename: %s', filename)
   return null
 }
 
@@ -50,6 +64,7 @@ function extractDateFromFilename(filename: string): Date | null {
 export async function importObsidianNotes(
   rootDir: string
 ): Promise<NewMemory[]> {
+  d('starting import from directory: %s', rootDir)
   const glob = new Glob('**/*.md')
   const memories: NewMemory[] = []
 
@@ -60,12 +75,14 @@ export async function importObsidianNotes(
   })) {
     // Skip anything in .obsidian directory
     if (relativePath.startsWith('.obsidian/') || relativePath === '.obsidian') {
+      d('skipping .obsidian path: %s', relativePath)
       continue
     }
 
     const fullPath = join(rootDir, relativePath)
     const filename = basename(relativePath)
     const title = basename(filename, '.md')
+    d('processing file: %s (title: %s)', relativePath, title)
 
     // Try to extract date from filename, fall back to file ctime
     let memoryCreatedAt: Date
@@ -76,22 +93,24 @@ export async function importObsidianNotes(
     } else {
       const fileStat = await stat(fullPath)
       memoryCreatedAt = fileStat.ctime
+      d('using file ctime for %s: %s', filename, memoryCreatedAt.toISOString())
     }
 
     // Read the file content
     const content = await Bun.file(fullPath).text()
+    d('read %d bytes from %s', content.length, relativePath)
 
     memories.push({
-      source: `obsidian:${relativePath}`,
+      source: `obsidian`,
       memoryCreatedAt: memoryCreatedAt.toISOString(),
       title,
       metadata: {
         originalPath: relativePath,
-        importedFrom: 'obsidian',
       },
       content,
     })
   }
 
+  d('import complete, found %d notes', memories.length)
   return memories
 }

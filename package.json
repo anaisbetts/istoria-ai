@@ -1,0 +1,7 @@
+{
+  "name": "istoria-ai",
+  "dependencies": {},
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.8"
+  }
+}

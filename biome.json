@@ -1,0 +1,67 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": ["**", "!**/dist/**", "!**/.next/**"]
+  },
+  "formatter": {
+    "enabled": true,
+    "useEditorconfig": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "attributePosition": "auto",
+    "bracketSpacing": true,
+    "includes": ["**", "!**/.next/**"]
+  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": false,
+      "nursery": {
+        "useSortedClasses": "error"
+      }
+    },
+    "includes": [
+      "**",
+      "!**/node_modules/**",
+      "!**/vite.config.ts",
+      "!**/.next/**"
+    ]
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "es5",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto",
+      "bracketSpacing": true
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.tsx"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "error",
+            "useExhaustiveDependencies": "warn",
+            "useHookAtTopLevel": "error"
+          }
+        }
+      }
+    }
+  ]
+}

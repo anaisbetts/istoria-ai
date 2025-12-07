@@ -3,6 +3,10 @@ import path from 'node:path'
 import { program } from 'commander'
 import createDebug from 'debug'
 import { importData } from './db-operations'
+import {
+  type ExportInterval,
+  exportToNotebookLM,
+} from './exporters/notebooklm-export'
 import { importDaylioBackup } from './importers/daylio-import'
 import { importObsidianNotes } from './importers/obsidian-import'
 import { createDatabase } from './types'
@@ -13,6 +17,7 @@ interface Options {
   outDir: string
   obsidian?: string
   daylio?: string
+  interval: ExportInterval
 }
 
 program
@@ -21,6 +26,11 @@ program
   .option('-o, --out-dir <path>', 'Output directory for the database', 'out')
   .option('--obsidian <path>', 'Path to Obsidian vault to import')
   .option('--daylio <path>', 'Path to Daylio backup file (.daylio) to import')
+  .option(
+    '--interval <type>',
+    "Grouping interval for export: 'month' or 'year'",
+    'month'
+  )
 
 program.parse()
 
@@ -53,6 +63,11 @@ export async function main(): Promise<number> {
     await importData(db, data)
     d('data imported to database')
   }
+
+  // Export to NotebookLM format
+  d('exporting to NotebookLM format with interval: %s', options.interval)
+  await exportToNotebookLM(db, options.outDir, options.interval)
+  d('export completed')
 
   d('main completed successfully')
   return 0

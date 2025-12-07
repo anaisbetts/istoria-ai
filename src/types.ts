@@ -9,8 +9,6 @@ import { migrator } from './migrations/this-sucks'
 
 const d = createDebug('istoria:types')
 
-// ISO 8601 with offset, e.g., "2025-09-11T00:00:00.000-07:00"
-// These sort correctly as strings in SQLite
 type Timestamp = DateTime
 
 interface MemoryTable {
@@ -29,6 +27,55 @@ export type NewMemory = Insertable<MemoryTable>
 
 export interface DatabaseSchema {
   memory: MemoryTable
+}
+
+export async function createDatabase(
+  path: string
+): Promise<[Kysely<DatabaseSchema>, () => Promise<void>]> {
+  d('creating database at: %s', path)
+  const sqlite = new Database(path)
+  const db = new Kysely<DatabaseSchema>({
+    dialect: new BunSqliteDialect({ database: sqlite }),
+    plugins: [
+      new SerializePlugin({
+        serializer: luxonSerializer,
+        deserializer: luxonDeserializer,
+      }),
+    ],
+  })
+  d('kysely instance created')
+
+  d('running migrations')
+  const m = new Migrator({ db, provider: migrator })
+  const { error, results } = await m.migrateToLatest()
+  if (results?.length) {
+    d(
+      'migrations executed: %O',
+      results.map((r) => ({ name: r.migrationName, status: r.status }))
+    )
+  }
+  if (error) {
+    d('migration error: %O', error)
+    if (error instanceof Error) {
+      throw error
+    } else {
+      throw new Error(`Failed to migrate database: ${error}`)
+    }
+  }
+  d('migrations complete')
+
+  return [
+    db,
+    async () => {
+      d('running WAL checkpoint')
+      sqlite.run('PRAGMA wal_checkpoint(TRUNCATE)')
+      d('destroying kysely instance')
+      await db.destroy()
+      d('closing sqlite database')
+      sqlite.close()
+      d('database closed')
+    },
+  ]
 }
 
 const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/
@@ -82,53 +129,4 @@ function luxonDeserializer(value: unknown): unknown {
     }
   }
   return value
-}
-
-export async function createDatabase(
-  path: string
-): Promise<[Kysely<DatabaseSchema>, () => Promise<void>]> {
-  d('creating database at: %s', path)
-  const sqlite = new Database(path)
-  const db = new Kysely<DatabaseSchema>({
-    dialect: new BunSqliteDialect({ database: sqlite }),
-    plugins: [
-      new SerializePlugin({
-        serializer: luxonSerializer,
-        deserializer: luxonDeserializer,
-      }),
-    ],
-  })
-  d('kysely instance created')
-
-  d('running migrations')
-  const m = new Migrator({ db, provider: migrator })
-  const { error, results } = await m.migrateToLatest()
-  if (results?.length) {
-    d(
-      'migrations executed: %O',
-      results.map((r) => ({ name: r.migrationName, status: r.status }))
-    )
-  }
-  if (error) {
-    d('migration error: %O', error)
-    if (error instanceof Error) {
-      throw error
-    } else {
-      throw new Error(`Failed to migrate database: ${error}`)
-    }
-  }
-  d('migrations complete')
-
-  return [
-    db,
-    async () => {
-      d('running WAL checkpoint')
-      sqlite.run('PRAGMA wal_checkpoint(TRUNCATE)')
-      d('destroying kysely instance')
-      await db.destroy()
-      d('closing sqlite database')
-      sqlite.close()
-      d('database closed')
-    },
-  ]
 }

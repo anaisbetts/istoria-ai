@@ -1,54 +1,55 @@
 AI Notes:
 
 .gitignore: +35[0]
-package.json: +3[1],+8-9[2],+11[1],+13[2]
-src/importers/obsidian-import.test.ts: +1-3[3],+4-5[4],+6-23[3]
-src/importers/obsidian-import.ts: +1-43[3],+44[5],+45-49[3],+53-97[3]
-src/index.ts: +4[6],+7[7],+9-10[12],+11[8],+13[9],+15[9],+17[10],+20[11],+21[9]
-src/migrations/001-create-memory-table.ts: +1[13],+2-3[17],+4[14],+5-36[17],+37-38[15],+39-61[17],+62[16],+63-64[17]
-src/migrations/this-sucks.ts: +1[18],+7[19]
-src/types.ts: +4[20],+6[21],+11[22],+12[23],+13[24],+14[25],+15[26],+18[27],+19-20[5],+21[28],+22[29],+25[30],+26[5],+30[39],+31[31],+34[32],+35-36[5],+37[33],+38[34],+39[35],+40[36],+44-46[5],+47-50[39],+51[37],+52[38],+53-55[5]
+package.json: +3[1],+8[2],+9[3],+11[1],+13[2]
+src/importers/obsidian-import.test.ts: +1-3[4],+4-5[5],+6-23[4]
+src/importers/obsidian-import.ts: +1-43[4],+44[6],+45-49[4],+53-97[4]
+src/index.ts: +4[7],+7[8],+9-10[13],+11[9],+13[10],+15[10],+17[11],+20[12],+21[10]
+src/migrations/001-create-memory-table.ts: +1[14],+2-3[18],+4[15],+5-36[18],+37-38[16],+39-61[18],+62[17],+63-64[18]
+src/migrations/this-sucks.ts: +1[19],+7[20]
+src/types.ts: +4[21],+6[22],+11[23],+12[24],+13[25],+14[26],+15[27],+18[28],+19-20[6],+21[29],+22[30],+25[31],+26[6],+30[40],+31[32],+34[33],+35-36[6],+37[34],+38[35],+39[36],+40[37],+44-46[6],+47-50[40],+51[38],+52[39],+53-55[6]
 tsconfig.json: +3-5[1],+7[1],+28[1]
 
 Conversations:
 
 [0]: fc1cb978-bc36-45a9-99c8-e5f444af65de; Tab Request fc1cb978; unknown;
-[1]: d1a6f13f-fecf-47bf-a17a-e17526398cad; IDE defaulting to CJS instead of ESM; claude-4.5-opus-high-thinking;
-[2]: ec0ff53e-7c27-4883-a5dd-d3d3592f3c83; Tab Request ec0ff53e; unknown;
-[3]: 2c7ade3e-fd89-4528-a729-24c9c788e425; Develop Bun Obsidian importer; claude-4.5-opus-high-thinking;
-[4]: 66411c83-b182-41fb-8a33-d32228423445; Tab Request 66411c83; unknown;
-[5]: 0d17d779-a2fc-4e7d-9b6b-aee82e9499d3; Kysely date serialization comparison issue; claude-4.5-opus-high-thinking;
-[6]: 2ed4ea37-f108-4288-a9aa-a9c678425985; Tab Request 2ed4ea37; unknown;
-[7]: f1216c9e-8109-4408-aefd-0273b947b2ff; Tab Request f1216c9e; unknown;
-[8]: a02a8be8-5683-4216-8ac4-9872d3670511; Tab Request a02a8be8; unknown;
-[9]: 4a0f10aa-35a9-4935-82d0-a2978bebd150; Tab Request 4a0f10aa; unknown;
-[10]: 69bcdfbc-987e-4f25-a523-b5b4919aeff6; Tab Request 69bcdfbc; unknown;
-[11]: da7f425e-441b-44e7-9544-326993ab1747; Tab Request da7f425e; unknown;
-[12]: 27e0c9c2-cf57-4dcc-be7e-8f5dd4f65adf; Modern command-line parser recommendations; claude-4.5-opus-high-thinking;
-[13]: 2a52a8f4-8e4f-4e53-bda2-f02647bab293; Tab Request 2a52a8f4; unknown;
-[14]: 6fb42de8-2331-4d03-b020-96ac0873279d; Tab Request 6fb42de8; unknown;
-[15]: a4a1c29c-4329-4886-bf8a-13f7a595d2ba; Tab Request a4a1c29c; unknown;
-[16]: 23fa1bb5-2bd2-47a5-a9a5-86d470561941; Tab Request 23fa1bb5; unknown;
-[17]: 29baa2a9-5509-473c-b85e-d7e93323a9d6; Kysely migration and fast sqlite3; claude-4.5-opus-high-thinking;
-[18]: 086e9e66-1a93-4572-b029-afee99cd5d37; Tab Request 086e9e66; unknown;
-[19]: 195451c0-27e5-4702-8be1-6b1db3bd805a; Tab Request 195451c0; unknown;
-[20]: 6ba07d66-6109-4494-9600-b4563f3873ad; Tab Request 6ba07d66; unknown;
-[21]: 6b534280-a5a1-4b3d-a16c-8b66d280cffb; Tab Request 6b534280; unknown;
-[22]: d5355080-4139-44c4-acb9-3369641be79f; Tab Request d5355080; unknown;
-[23]: f82be950-4ad1-4ca4-9eaa-b46b6fc57487; Tab Request f82be950; unknown;
-[24]: efd33f98-0fbd-4d39-9f49-b00c3f716c75; Tab Request efd33f98; unknown;
-[25]: df3a633d-d497-4720-9c75-1765adfbd6a2; Tab Request df3a633d; unknown;
-[26]: 5da5b5df-46c6-4175-ba1e-08c0f01f9cf7; Tab Request 5da5b5df; unknown;
-[27]: 8c76f98f-34c0-4f92-b1aa-f2b77ba72d22; Tab Request 8c76f98f; unknown;
-[28]: 6506a364-c917-4d69-a2c1-d836ae047f55; Tab Request 6506a364; unknown;
-[29]: 18c00554-aa40-4dbb-b9fe-e9598eb3f9b9; Tab Request 18c00554; unknown;
-[30]: 481ba5dd-6021-4c4c-9e2e-43bff074d7ee; Tab Request 481ba5dd; unknown;
-[31]: 270df80b-b2ed-4314-a3f3-c05d534e1c06; Tab Request 270df80b; unknown;
-[32]: f25b8534-d375-4fde-9d2f-e95a247e0d4d; Tab Request f25b8534; unknown;
-[33]: 6e6f07eb-2334-4578-a5f9-b55cb224e3ca; Tab Request 6e6f07eb; unknown;
-[34]: 262e3a74-1bb7-43df-8b90-f5f34135a2db; Tab Request 262e3a74; unknown;
-[35]: 11b1258f-48e2-437a-ae3a-c72eed0164b9; Tab Request 11b1258f; unknown;
-[36]: 0aba020e-800e-4e81-80d8-30c909a905c8; Tab Request 0aba020e; unknown;
-[37]: b91e90db-0883-439a-9576-222126df03fa; Tab Request b91e90db; unknown;
-[38]: de02d1b2-cf56-414c-af00-e1c9350bc5e8; Tab Request de02d1b2; unknown;
-[39]: 8827d3e1-c5f4-48fb-9be0-d761672b4424; Database not closing correctly; claude-4.5-opus-high-thinking;
+[1]: d1a6f13f-fecf-47bf-a17a-e17526398cad; d1a6f13f; unknown;
+[2]: a19a22fa-d4d8-417b-880d-23e9605ff3bb; Tab Request a19a22fa; unknown;
+[3]: ec0ff53e-7c27-4883-a5dd-d3d3592f3c83; Tab Request ec0ff53e; unknown;
+[4]: 2c7ade3e-fd89-4528-a729-24c9c788e425; 2c7ade3e; unknown;
+[5]: 66411c83-b182-41fb-8a33-d32228423445; Tab Request 66411c83; unknown;
+[6]: 0d17d779-a2fc-4e7d-9b6b-aee82e9499d3; Kysely date serialization comparison issue; claude-4.5-opus-high-thinking;
+[7]: 2ed4ea37-f108-4288-a9aa-a9c678425985; Tab Request 2ed4ea37; unknown;
+[8]: f1216c9e-8109-4408-aefd-0273b947b2ff; Tab Request f1216c9e; unknown;
+[9]: a02a8be8-5683-4216-8ac4-9872d3670511; Tab Request a02a8be8; unknown;
+[10]: 4a0f10aa-35a9-4935-82d0-a2978bebd150; Tab Request 4a0f10aa; unknown;
+[11]: 69bcdfbc-987e-4f25-a523-b5b4919aeff6; Tab Request 69bcdfbc; unknown;
+[12]: da7f425e-441b-44e7-9544-326993ab1747; Tab Request da7f425e; unknown;
+[13]: e5e01fa0-0326-4695-84fb-71c534feb075; Implement Daylio backup importer; claude-4.5-opus-high-thinking;
+[14]: 2a52a8f4-8e4f-4e53-bda2-f02647bab293; Tab Request 2a52a8f4; unknown;
+[15]: 6fb42de8-2331-4d03-b020-96ac0873279d; Tab Request 6fb42de8; unknown;
+[16]: a4a1c29c-4329-4886-bf8a-13f7a595d2ba; Tab Request a4a1c29c; unknown;
+[17]: 23fa1bb5-2bd2-47a5-a9a5-86d470561941; Tab Request 23fa1bb5; unknown;
+[18]: 29baa2a9-5509-473c-b85e-d7e93323a9d6; 29baa2a9; unknown;
+[19]: 086e9e66-1a93-4572-b029-afee99cd5d37; Tab Request 086e9e66; unknown;
+[20]: 195451c0-27e5-4702-8be1-6b1db3bd805a; Tab Request 195451c0; unknown;
+[21]: 6ba07d66-6109-4494-9600-b4563f3873ad; Tab Request 6ba07d66; unknown;
+[22]: 6b534280-a5a1-4b3d-a16c-8b66d280cffb; Tab Request 6b534280; unknown;
+[23]: d5355080-4139-44c4-acb9-3369641be79f; Tab Request d5355080; unknown;
+[24]: f82be950-4ad1-4ca4-9eaa-b46b6fc57487; Tab Request f82be950; unknown;
+[25]: efd33f98-0fbd-4d39-9f49-b00c3f716c75; Tab Request efd33f98; unknown;
+[26]: df3a633d-d497-4720-9c75-1765adfbd6a2; Tab Request df3a633d; unknown;
+[27]: 5da5b5df-46c6-4175-ba1e-08c0f01f9cf7; Tab Request 5da5b5df; unknown;
+[28]: 8c76f98f-34c0-4f92-b1aa-f2b77ba72d22; Tab Request 8c76f98f; unknown;
+[29]: 6506a364-c917-4d69-a2c1-d836ae047f55; Tab Request 6506a364; unknown;
+[30]: 18c00554-aa40-4dbb-b9fe-e9598eb3f9b9; Tab Request 18c00554; unknown;
+[31]: 481ba5dd-6021-4c4c-9e2e-43bff074d7ee; Tab Request 481ba5dd; unknown;
+[32]: 270df80b-b2ed-4314-a3f3-c05d534e1c06; Tab Request 270df80b; unknown;
+[33]: f25b8534-d375-4fde-9d2f-e95a247e0d4d; Tab Request f25b8534; unknown;
+[34]: 6e6f07eb-2334-4578-a5f9-b55cb224e3ca; Tab Request 6e6f07eb; unknown;
+[35]: 262e3a74-1bb7-43df-8b90-f5f34135a2db; Tab Request 262e3a74; unknown;
+[36]: 11b1258f-48e2-437a-ae3a-c72eed0164b9; Tab Request 11b1258f; unknown;
+[37]: 0aba020e-800e-4e81-80d8-30c909a905c8; Tab Request 0aba020e; unknown;
+[38]: b91e90db-0883-439a-9576-222126df03fa; Tab Request b91e90db; unknown;
+[39]: de02d1b2-cf56-414c-af00-e1c9350bc5e8; Tab Request de02d1b2; unknown;
+[40]: 8827d3e1-c5f4-48fb-9be0-d761672b4424; 8827d3e1; unknown;

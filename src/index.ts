@@ -3,6 +3,7 @@ import path from 'node:path'
 import { program } from 'commander'
 import createDebug from 'debug'
 import { importData } from './db-operations'
+import { importDaylioBackup } from './importers/daylio-import'
 import { importObsidianNotes } from './importers/obsidian-import'
 import { createDatabase } from './types'
 
@@ -11,6 +12,7 @@ const d = createDebug('istoria:main')
 interface Options {
   outDir: string
   obsidian?: string
+  daylio?: string
 }
 
 program
@@ -18,6 +20,7 @@ program
   .description('Import and process memory data')
   .option('-o, --out-dir <path>', 'Output directory for the database', 'out')
   .option('--obsidian <path>', 'Path to Obsidian vault to import')
+  .option('--daylio <path>', 'Path to Daylio backup file (.daylio) to import')
 
 program.parse()
 
@@ -37,6 +40,15 @@ export async function main(): Promise<number> {
     d('importing from Obsidian vault: %s', options.obsidian)
     const data = await importObsidianNotes(options.obsidian)
     d('imported %d notes from Obsidian', data.length)
+
+    await importData(db, data)
+    d('data imported to database')
+  }
+
+  if (options.daylio) {
+    d('importing from Daylio backup: %s', options.daylio)
+    const data = await importDaylioBackup(options.daylio)
+    d('imported %d days from Daylio', data.length)
 
     await importData(db, data)
     d('data imported to database')

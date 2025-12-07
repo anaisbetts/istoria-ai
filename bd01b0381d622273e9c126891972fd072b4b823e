@@ -7,7 +7,7 @@ src/importers/obsidian-import.ts: +1-43[3],+44[5],+45-49[3],+53-97[3]
 src/index.ts: +4[6],+7[7],+9-10[12],+11[8],+13[9],+15[9],+17[10],+20[11],+21[9]
 src/migrations/001-create-memory-table.ts: +1[13],+2-3[17],+4[14],+5-36[17],+37-38[15],+39-61[17],+62[16],+63-64[17]
 src/migrations/this-sucks.ts: +1[18],+7[19]
-src/types.ts: +4[20],+6[21],+11[22],+12[23],+13[24],+14[25],+15[26],+18[27],+19-20[5],+21[28],+22[29],+25[30],+26[5],+30[40],+31[31],+34[32],+35-36[33],+37[34],+38[35],+39[36],+40[37],+44-46[5],+47-50[40],+51[38],+52[39],+53[5],+54[40],+55[5]
+src/types.ts: +4[20],+6[21],+11[22],+12[23],+13[24],+14[25],+15[26],+18[27],+19-20[5],+21[28],+22[29],+25[30],+26[5],+30[39],+31[31],+34[32],+35-36[5],+37[33],+38[34],+39[35],+40[36],+44-46[5],+47-50[39],+51[37],+52[38],+53-55[5]
 tsconfig.json: +3-5[1],+7[1],+28[1]
 
 Conversations:
@@ -45,11 +45,10 @@ Conversations:
 [30]: 481ba5dd-6021-4c4c-9e2e-43bff074d7ee; Tab Request 481ba5dd; unknown;
 [31]: 270df80b-b2ed-4314-a3f3-c05d534e1c06; Tab Request 270df80b; unknown;
 [32]: f25b8534-d375-4fde-9d2f-e95a247e0d4d; Tab Request f25b8534; unknown;
-[33]: e6fc80db-a507-4fd8-90e6-e081456ff743; Tab Request e6fc80db; unknown;
-[34]: 6e6f07eb-2334-4578-a5f9-b55cb224e3ca; Tab Request 6e6f07eb; unknown;
-[35]: 262e3a74-1bb7-43df-8b90-f5f34135a2db; Tab Request 262e3a74; unknown;
-[36]: 11b1258f-48e2-437a-ae3a-c72eed0164b9; Tab Request 11b1258f; unknown;
-[37]: 0aba020e-800e-4e81-80d8-30c909a905c8; Tab Request 0aba020e; unknown;
-[38]: b91e90db-0883-439a-9576-222126df03fa; Tab Request b91e90db; unknown;
-[39]: de02d1b2-cf56-414c-af00-e1c9350bc5e8; Tab Request de02d1b2; unknown;
-[40]: 8827d3e1-c5f4-48fb-9be0-d761672b4424; Database not closing correctly; claude-4.5-opus-high-thinking;
+[33]: 6e6f07eb-2334-4578-a5f9-b55cb224e3ca; Tab Request 6e6f07eb; unknown;
+[34]: 262e3a74-1bb7-43df-8b90-f5f34135a2db; Tab Request 262e3a74; unknown;
+[35]: 11b1258f-48e2-437a-ae3a-c72eed0164b9; Tab Request 11b1258f; unknown;
+[36]: 0aba020e-800e-4e81-80d8-30c909a905c8; Tab Request 0aba020e; unknown;
+[37]: b91e90db-0883-439a-9576-222126df03fa; Tab Request b91e90db; unknown;
+[38]: de02d1b2-cf56-414c-af00-e1c9350bc5e8; Tab Request de02d1b2; unknown;
+[39]: 8827d3e1-c5f4-48fb-9be0-d761672b4424; Database not closing correctly; claude-4.5-opus-high-thinking;

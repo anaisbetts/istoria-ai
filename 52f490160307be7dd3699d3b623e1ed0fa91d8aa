@@ -1,0 +1,21 @@
+AI Notes:
+
+src/db-operations.ts: +3[0],+15-27[0] -3[0]
+src/exporters/notebooklm-export.ts: +1-117[0]
+src/index.ts: +6-9[0],+20[0],+29-33[0],+67-70[0]
+src/types.ts: +34[1],+35[2],+36[4],+39-45[3],+46-48[2],+49[5],+50-55[2],+56[3],+57[6],+58[2],+59[7],+63-64[3],+65-66[2],+67-69[1],+70[2],+71[1],+72[2],+73[8],+74[2],+75[9],+76[2],+77-79[3] -92[10],-98[10],-100[10],-130[11]
+
+Conversations:
+
+[0]: 3f2557ac-6df7-42a9-8f3a-5507916b47a3; Export NotebookLLM daily memories for LLMs; claude-4.5-opus-high-thinking;
+[1]: 8827d3e1-c5f4-48fb-9be0-d761672b4424; 8827d3e1; unknown;
+[2]: b471457a-c21c-43b3-9f4b-8db5cc352eef; b471457a; unknown;
+[3]: 0d17d779-a2fc-4e7d-9b6b-aee82e9499d3; Kysely date serialization comparison issue; claude-4.5-opus-high-thinking;
+[4]: 270df80b-b2ed-4314-a3f3-c05d534e1c06; Tab Request 270df80b; unknown;
+[5]: 6e6f07eb-2334-4578-a5f9-b55cb224e3ca; Tab Request 6e6f07eb; unknown;
+[6]: 11b1258f-48e2-437a-ae3a-c72eed0164b9; Tab Request 11b1258f; unknown;
+[7]: 0aba020e-800e-4e81-80d8-30c909a905c8; Tab Request 0aba020e; unknown;
+[8]: b91e90db-0883-439a-9576-222126df03fa; Tab Request b91e90db; unknown;
+[9]: de02d1b2-cf56-414c-af00-e1c9350bc5e8; Tab Request de02d1b2; unknown;
+[10]: 09a3c2c5-729c-4c0b-8642-1d0b9bfcff39; Tab Request 09a3c2c5; unknown;
+[11]: f1448d89-eaaf-42ec-8ec8-3d7e034b8e18; Tab Request f1448d89; unknown;

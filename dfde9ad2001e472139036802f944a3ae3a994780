@@ -1,7 +1,8 @@
 AI Notes:
 
 src/db-operations.test.ts: +1-4[0],+7-75[0]
-src/importers/obsidian-import.test.ts: +16[1]
+src/db-operations.ts: +8[1],+14[1]
+src/importers/obsidian-import.test.ts: +16[2]
 src/importers/obsidian-import.ts: +5[0],+21-24[0],+26[0],+32-36[0],+41[0],+44-46[0],+48[0],+50-51[0],+67-68[0],+93-94[0],+101-108[0],+116-117[0] -21[0],-27-33[0],-38[0],-41-42[0],-44[0],-46[0],-62[0],-87-88[0],-95-96[0],-104-105[0]
 src/migrations/001-create-memory-table.ts: +40[0] -40[0]
 src/types.ts: +7[0],+12-14[0],+34-86[0],+94-99[0] -38[0]
@@ -9,4 +10,5 @@ src/types.ts: +7[0],+12-14[0],+34-86[0],+94-99[0] -38[0]
 Conversations:
 
 [0]: 0d17d779-a2fc-4e7d-9b6b-aee82e9499d3; Kysely date serialization comparison issue; claude-4.5-opus-high-thinking;
-[1]: 7107f030-b404-4e3b-a655-2d13c1bd82ef; Tab Request 7107f030; unknown;
+[1]: 3f2557ac-6df7-42a9-8f3a-5507916b47a3; Export NotebookLLM daily memories for LLMs; claude-4.5-opus-high-thinking;
+[2]: 7107f030-b404-4e3b-a655-2d13c1bd82ef; Tab Request 7107f030; unknown;

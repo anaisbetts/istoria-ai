@@ -2,7 +2,7 @@ import { mkdir } from 'node:fs/promises'
 import path from 'node:path'
 import { program } from 'commander'
 import createDebug from 'debug'
-import { importData } from './db'
+import { importData } from './db-operations'
 import { importObsidianNotes } from './importers/obsidian-import'
 import { createDatabase } from './types'
 

@@ -2,6 +2,7 @@ import { stat } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 import { Glob } from 'bun'
 import createDebug from 'debug'
+import { DateTime } from 'luxon'
 import type { NewMemory } from '../types'
 
 const d = createDebug('istoria:obsidian')
@@ -17,33 +18,37 @@ const ISO_DATETIME_REGEX =
  * Extracts a date from a filename if it contains a timestamp.
  * Supports YYYY-MM-DD format (e.g., "2025-09-11.md") and ISO format.
  * Returns null if no date pattern is found.
+ *
+ * For YYYY-MM-DD dates without time, assumes local timezone at start of day.
+ * For ISO dates with timezone info, preserves that timezone.
+ * For ISO dates without timezone, assumes local timezone.
  */
-function extractDateFromFilename(filename: string): Date | null {
+function extractDateFromFilename(filename: string): DateTime | null {
   const name = basename(filename, '.md')
 
   // Try ISO datetime first (more specific)
   const isoMatch = name.match(ISO_DATETIME_REGEX)
   if (isoMatch?.[1]) {
-    const parsed = new Date(isoMatch[1])
-    if (!isNaN(parsed.getTime())) {
-      d(
-        'extracted ISO date from filename %s: %s',
-        filename,
-        parsed.toISOString()
-      )
+    // fromISO will use the timezone in the string if present,
+    // otherwise uses local timezone
+    const parsed = DateTime.fromISO(isoMatch[1])
+    if (parsed.isValid) {
+      d('extracted ISO date from filename %s: %s', filename, parsed.toISO())
       return parsed
     }
   }
 
-  // Try YYYY-MM-DD format
+  // Try YYYY-MM-DD format - interpret in local timezone
   const dateMatch = name.match(YYYY_MM_DD_REGEX)
   if (dateMatch?.[1]) {
-    const parsed = new Date(dateMatch[1])
-    if (!isNaN(parsed.getTime())) {
+    // Parse as local date (start of day in local timezone)
+    const parsed = DateTime.fromISO(dateMatch[1])
+    if (parsed.isValid) {
       d(
-        'extracted YYYY-MM-DD date from filename %s: %s',
+        'extracted YYYY-MM-DD date from filename %s: %s (local timezone: %s)',
         filename,
-        parsed.toISOString()
+        parsed.toISO(),
+        parsed.zoneName
       )
       return parsed
     }
@@ -59,7 +64,8 @@ function extractDateFromFilename(filename: string): Date | null {
  * - Only reads Markdown (.md) files
  * - Ignores the .obsidian directory
  * - Uses filename timestamps (YYYY-MM-DD or ISO) for memoryCreatedAt when available,
- *   otherwise falls back to file ctime
+ *   otherwise falls back to file mtime (modification time)
+ * - All dates preserve timezone information
  */
 export async function importObsidianNotes(
   rootDir: string
@@ -84,16 +90,22 @@ export async function importObsidianNotes(
     const title = basename(filename, '.md')
     d('processing file: %s (title: %s)', relativePath, title)
 
-    // Try to extract date from filename, fall back to file ctime
-    let memoryCreatedAt: Date
+    // Try to extract date from filename, fall back to file mtime
+    let memoryCreatedAt: DateTime
     const filenameDate = extractDateFromFilename(filename)
 
     if (filenameDate) {
       memoryCreatedAt = filenameDate
     } else {
       const fileStat = await stat(fullPath)
-      memoryCreatedAt = fileStat.ctime
-      d('using file ctime for %s: %s', filename, memoryCreatedAt.toISOString())
+      // Convert JS Date to Luxon DateTime, preserving local timezone
+      memoryCreatedAt = DateTime.fromJSDate(fileStat.mtime)
+      d(
+        'using file mtime for %s: %s (timezone: %s)',
+        filename,
+        memoryCreatedAt.toISO(),
+        memoryCreatedAt.zoneName
+      )
     }
 
     // Read the file content
@@ -101,8 +113,8 @@ export async function importObsidianNotes(
     d('read %d bytes from %s', content.length, relativePath)
 
     memories.push({
-      source: `obsidian`,
-      memoryCreatedAt: memoryCreatedAt.toISOString(),
+      source: 'obsidian',
+      memoryCreatedAt,
       title,
       metadata: {
         originalPath: relativePath,

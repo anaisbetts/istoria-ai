@@ -13,7 +13,7 @@ describe('importObsidianNotes', () => {
 
       // Verify each memory has required fields
       for (const memory of memories) {
-        expect(memory.source).toStartWith('obsidian:')
+        expect(memory.source).toBe('obsidian')
         expect(memory.title).toBeTruthy()
         expect(memory.memoryCreatedAt).toBeTruthy()
         expect(memory.content).toBeDefined()

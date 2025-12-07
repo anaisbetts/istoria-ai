@@ -4,11 +4,14 @@ import type { Generated, Insertable, Selectable } from 'kysely'
 import { Kysely, Migrator } from 'kysely'
 import { BunSqliteDialect } from 'kysely-bun-sqlite'
 import { SerializePlugin } from 'kysely-plugin-serialize'
+import { DateTime } from 'luxon'
 import { migrator } from './migrations/this-sucks'
 
 const d = createDebug('istoria:types')
 
-type Timestamp = string
+// ISO 8601 with offset, e.g., "2025-09-11T00:00:00.000-07:00"
+// These sort correctly as strings in SQLite
+type Timestamp = DateTime
 
 interface MemoryTable {
   id: Generated<string>
@@ -28,6 +31,59 @@ export interface DatabaseSchema {
   memory: MemoryTable
 }
 
+const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/
+
+/**
+ * Custom serializer for kysely-plugin-serialize that handles:
+ * - Luxon DateTime objects (to ISO strings)
+ * - JSON objects (to JSON strings)
+ * - Uint8Array (passed through as-is)
+ */
+function luxonSerializer(value: unknown): unknown {
+  // Handle Luxon DateTime - convert to ISO string
+  if (DateTime.isDateTime(value)) {
+    return value.toISO()
+  }
+  // Uint8Array passes through (SQLite handles blobs)
+  if (value instanceof Uint8Array) {
+    return value
+  }
+  // Handle plain objects - convert to JSON (but not arrays, handled separately)
+  if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+    return JSON.stringify(value)
+  }
+  return value
+}
+
+/**
+ * Custom deserializer that handles:
+ * - ISO date strings (to Luxon DateTime)
+ * - JSON strings (to objects)
+ */
+function luxonDeserializer(value: unknown): unknown {
+  if (typeof value === 'string') {
+    // Check if it looks like an ISO date string
+    if (ISO_DATE_REGEX.test(value)) {
+      const dt = DateTime.fromISO(value)
+      if (dt.isValid) {
+        return dt
+      }
+    }
+    // Check if it looks like JSON
+    if (
+      (value.startsWith('{') && value.endsWith('}')) ||
+      (value.startsWith('[') && value.endsWith(']'))
+    ) {
+      try {
+        return JSON.parse(value)
+      } catch {
+        return value
+      }
+    }
+  }
+  return value
+}
+
 export async function createDatabase(
   path: string
 ): Promise<[Kysely<DatabaseSchema>, () => Promise<void>]> {
@@ -35,7 +91,12 @@ export async function createDatabase(
   const sqlite = new Database(path)
   const db = new Kysely<DatabaseSchema>({
     dialect: new BunSqliteDialect({ database: sqlite }),
-    plugins: [new SerializePlugin()],
+    plugins: [
+      new SerializePlugin({
+        serializer: luxonSerializer,
+        deserializer: luxonDeserializer,
+      }),
+    ],
   })
   d('kysely instance created')
 
